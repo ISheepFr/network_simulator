@@ -1,7 +1,7 @@
 import QtQuick 2.15
 import QtLocation
 import QtPositioning
-
+import Try 1.0
 
 Rectangle
 {
@@ -43,6 +43,63 @@ Rectangle
 
         center: QtPositioning.coordinate(lat,lng)
         zoomLevel: 14
+
+        Text{
+            id: label
+            //text: maillage.toString()
+        }
+
+        Maillage {
+            id: maillage
+            lignes: 12
+            colonnes: 30
+        }
+
+
+      /*  Connections{
+            target: Maillage
+            onL_change: label.text = "l_changed"
+            onC_change: label.text = "c_changed"
+        }*/
+
+        Repeater {
+            model: maillage.hexagones
+            delegate : HexagoneItem {
+                hexagone: modelData
+                wdth: parent.width
+                hght: parent.height
+
+            }
+
+        }
+
+
+
+
+        property int nb: 0
+
+        /*Repeater {
+            model: maillage.hexagones
+            delegate: Row {
+                Repeater {
+                    model: modelData
+                    delegate: Column {
+                        Repeater{
+                            model:modelData
+                            delegate: HexagoneItem{
+                                hexagone: modelData
+                                Component.onCompleted: {
+                                            mapview.nb++
+                                    console.log("Nouvelle instance HexagoneItem créée: "+mapview.nb);
+
+                                        }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }*/
     }
 
 
