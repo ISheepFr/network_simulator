@@ -20,24 +20,11 @@
       <x>10</x>
       <y>10</y>
       <width>771</width>
-      <height>401</height>
+      <height>491</height>
      </rect>
     </property>
     <property name="resizeMode">
      <enum>QQuickWidget::SizeRootObjectToView</enum>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>430</y>
-      <width>75</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
     </property>
    </widget>
   </widget>

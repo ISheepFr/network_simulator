@@ -21,6 +21,8 @@ public:
     Q_INVOKABLE int getY() const;
     Q_INVOKABLE QList<QPointF> getHexagonPoints() const;
 
+    Q_INVOKABLE bool isInHexagone(double x, double y);
+
     bool containsCar() const;
     void setContainsCar(bool containsCar);
 

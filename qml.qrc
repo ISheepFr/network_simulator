@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>grille.qml</file>
         <file>HexagoneItem.qml</file>
+        <file>VoitureItem.qml</file>
+        <file>car-solid.svg</file>
     </qresource>
 </RCC>

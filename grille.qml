@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtLocation
 import QtPositioning
 import Try 1.0
+import QtQuick.Controls 2.15
 
 Rectangle
 {
@@ -51,7 +52,7 @@ Rectangle
 
         Maillage {
             id: maillage
-            lignes: 12
+            lignes: 15
             colonnes: 30
         }
 
@@ -62,18 +63,51 @@ Rectangle
             onC_change: label.text = "c_changed"
         }*/
 
+        property bool color: false
+
         Repeater {
             model: maillage.hexagones
             delegate : HexagoneItem {
                 hexagone: modelData
                 wdth: parent.width
                 hght: parent.height
+                //x: modelData.hexa_x
+                //y: modelData.hexa_y
 
             }
 
         }
 
+        VoitureItem {
+            id: v
+                voiture: Voiture {
+                    x: 0
+                    y: 0
+                    vitesse: 1
+                }
+            }
 
+        Connections{
+            target:v.voiture
+
+        }
+
+
+
+        Button{
+
+            text: "test"
+            onClicked: {
+
+                maillage.hexagones[maillage.lignes*5+5].containsCar = !maillage.hexagones[maillage.lignes*5+5].containsCar
+                console.log("clicked"+maillage.hexagones[maillage.lignes*5+5].containsCar)
+            }
+
+            anchors{
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+            }
+        }
 
 
         property int nb: 0

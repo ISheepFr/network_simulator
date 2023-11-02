@@ -11,12 +11,14 @@ SOURCES += \
     hexagone.cpp \
     maillage.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    voiture.cpp
 
 HEADERS += \
     hexagone.h \
     maillage.h \
-    mainwindow.h
+    mainwindow.h \
+    voiture.h
 
 FORMS += \
     interface.ui

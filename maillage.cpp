@@ -55,6 +55,8 @@ QString Maillage::toString()
         str+="("+QString::number(d_hexagones[i]->getX())+","+QString::number(d_hexagones[i]->getY()) + ") ";
         str+="\n";
     }
+
+
     qDebug() << str;
     return str;
 }
