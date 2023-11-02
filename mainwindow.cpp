@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->quickWidget->setSource(QUrl(QStringLiteral("qrc:/grille.qml")));
     //ui->quickWidget->show();
-    ui->quickWidget->height();
 
 }
 

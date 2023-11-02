@@ -6,7 +6,7 @@
 #include <QQmlApplicationEngine>
 
 #include "maillage.h"
-
+#include "voiture.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
     qmlRegisterType<Maillage>("Try",1,0,"Maillage");
-    qmlRegisterType<Maillage>("Try",1,0,"Hexagone");
+    qmlRegisterType<Hexagone>("Try",1,0,"Hexagone");
+    qmlRegisterType<Voiture>("Try",1,0,"Voiture");
     //Maillage maillage_carte(10,10);
 
     QApplication a(argc, argv);
