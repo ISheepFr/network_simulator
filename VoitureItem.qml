@@ -9,7 +9,9 @@ Item {
         x:voiture.x
         y:voiture.y
         vitesse: voiture.vitesse
+        puissance: voiture.puissance
     }
+
 
 
     Image {
@@ -22,7 +24,7 @@ Item {
     }
 
     Timer {
-        interval: 10 // ajuste l'intervalle selon tes besoins (en millisecondes)
+        interval: 100 // ajuste l'intervalle selon tes besoins (en millisecondes)
         running: true
         repeat: true
         onTriggered: {
@@ -34,31 +36,57 @@ Item {
         target: voiture
         function onXChanged() {
             checkHexagonColor();
-            console.log("emited")
-            console.log(voiture.toString())
             img.x = voiture.x
-            img.y = voiture.y
-            console.log(img.x,img.y)
         }
         function onYChanged() {
-            img.x = voiture.x
             img.y = voiture.y
-
             checkHexagonColor();
         }
     }
 
     function checkHexagonColor() {
-        for (var i = 0; i < maillage.hexagones.length; ++i) {
-            var hexagone = maillage.hexagones[i];
-            if (hexagone.isInHexagone(voiture.x, voiture.y)) {
-                hexagone.containsCar = true;
-                hexagone.toString();
+
+        for (var i = 0; i < maillage.colonnes; ++i) {
+            for( var j =0; j < maillage.lignes; ++j){
+                var hexagone = maillage.hexa2d[i][j];
+                //console.log("i : " + i + " j : "+ j + "index: "+hexagone.getIndex()+ "nbLignes : "+maillage.lignes + "  nbcolonnes: "+maillage.colonnes);
+                if (hexagone.isInHexagone(voiture.x, voiture.y)) {
+
+                    //hexagone.containsCar = !hexagone.containsCar;
+                    hexagone.color = voiture.color;
+                    var tab_ = maillage.getHexagonesVoisins(i,j,1);
+                    console.log(tab_.length);
+                    for(var k=0; k<tab_.length; k++)
+                    {
+                        tab_[k].color = "#505BF518";
+                    }
+                    //console.log("i : " + i + " j : "+ j + "index: "+hexagone.getIndex());
+                    break;
+                    }
+
+
+
+
+
+                //maillage.hexagones[i-1].color = "#505BF518";
+                //maillage.hexagones[i+1].color = "#505BF518";
+
+                //maillage.hexagones[i-maillage.lignes].color = "#505BF518";
+                //maillage.hexagones[i+1-maillage.lignes].color = "#505BF518";
+
+                //maillage.hexagones[i+maillage.lignes].color = "#505BF518";
+                //maillage.hexagones[i+1+maillage.lignes].color = "#505BF518";
+
+
+
+
             }
+
 
     }
 
 
 }
+
 
 }

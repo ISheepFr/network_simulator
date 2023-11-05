@@ -52,8 +52,8 @@ Rectangle
 
         Maillage {
             id: maillage
-            lignes: 15
-            colonnes: 30
+            lignes: 5
+            colonnes: 10
         }
 
 
@@ -65,7 +65,7 @@ Rectangle
 
         property bool color: false
 
-        Repeater {
+        /*Repeater {
             model: maillage.hexagones
             delegate : HexagoneItem {
                 hexagone: modelData
@@ -76,31 +76,75 @@ Rectangle
 
             }
 
+        }*/
+
+        Repeater {
+            model: maillage.hexa2d
+            delegate: Repeater {
+                model: modelData
+                delegate: HexagoneItem {
+                    hexagone: modelData
+                    wdth: parent.width
+                    hght: parent.height
+                    // x et y dépendent de la structure de Hexagone, ajuste-les en conséquence
+                    // x: modelData.hexa_x
+                    // y: modelData.hexa_y
+                }
+            }
         }
+
 
         VoitureItem {
             id: v
                 voiture: Voiture {
                     x: 0
-                    y: 0
-                    vitesse: 1
+                    y: 55
+                    vitesse: 3
+                    puissance: 1
+                    color: "green"
                 }
             }
 
-        Connections{
-            target:v.voiture
-
+        VoitureItem{
+            voiture: Voiture{
+                x:50
+                y:140
+                vitesse: 2
+                puissance: 1
+                color: "red"
+            }
         }
-
 
 
         Button{
 
             text: "test"
             onClicked: {
+                //var index = maillage.lignes*1+0
+                console.log(maillage.hexa2d[1][1]);
+                maillage.hexa2d[1][1].containsCar = !maillage.hexa2d[1][1].containsCar;
+                //maillage.hexagones[index].containsCar = !maillage.hexagones[index].containsCar
 
-                maillage.hexagones[maillage.lignes*5+5].containsCar = !maillage.hexagones[maillage.lignes*5+5].containsCar
-                console.log("clicked"+maillage.hexagones[maillage.lignes*5+5].containsCar)
+               /* maillage.hexagones[index].containsCar = !maillage.hexagones[index].containsCar
+                maillage.hexagones[index-1].containsCar = !maillage.hexagones[index-1].containsCar
+                maillage.hexagones[index+1].containsCar = !maillage.hexagones[index+1].containsCar
+
+                maillage.hexagones[index-maillage.lignes-1].containsCar = !maillage.hexagones[index-maillage.lignes-1].containsCar
+                maillage.hexagones[index-maillage.lignes].containsCar = !maillage.hexagones[index-maillage.lignes].containsCar
+
+                maillage.hexagones[index+maillage.lignes-1].containsCar = !maillage.hexagones[index+maillage.lignes-1].containsCar
+                maillage.hexagones[index+maillage.lignes].containsCar = !maillage.hexagones[index+maillage.lignes].containsCar
+
+                console.log("Centre:"+(index));
+                console.log("Moins 1:"+(index-1));
+                console.log("Plus 1:"+(index+1));
+
+                console.log("Colonne-1:"+(index-maillage.lignes-1));
+                console.log("Colonne -1 L +1: "+ (index-maillage.lignes));
+
+                console.log("Colonne+1:"+(index+maillage.lignes-1));
+                console.log("Colonne +1 L +1: "+ (index+maillage.lignes));*/
+
             }
 
             anchors{
@@ -112,28 +156,6 @@ Rectangle
 
         property int nb: 0
 
-        /*Repeater {
-            model: maillage.hexagones
-            delegate: Row {
-                Repeater {
-                    model: modelData
-                    delegate: Column {
-                        Repeater{
-                            model:modelData
-                            delegate: HexagoneItem{
-                                hexagone: modelData
-                                Component.onCompleted: {
-                                            mapview.nb++
-                                    console.log("Nouvelle instance HexagoneItem créée: "+mapview.nb);
-
-                                        }
-                            }
-                        }
-                    }
-
-                }
-            }
-        }*/
     }
 
 

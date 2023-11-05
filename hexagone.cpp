@@ -2,6 +2,11 @@
 #include <QDebug>
 #include <QPointF>
 
+Hexagone::Hexagone(int x, int y, int ind, QObject *parent):QObject(parent),d_x{x},d_y{y},d_containsCar(false),index{ind}
+{
+
+}
+
 Hexagone::Hexagone(int x, int y, QObject *parent):QObject(parent),d_x{x},d_y{y},d_containsCar(false)
 {
 
@@ -27,18 +32,18 @@ void Hexagone::setContainsCar(bool containsCar)
     }
 }
 
-/*QString Hexagone::toString()
+QString Hexagone::toString()
 {
     QString str = "";
-   // str = "(x:"+QString::number(getX())+", y:"+QString::number(getY())+", got_car:"+QString::number(containsCar())+")\n";
-    str = "("+QString::number(getX())+","+QString::number(getY())+")\n";
+    str = "(x:"+QString::number(getX())+", y:"+QString::number(getY())+", got_car:"+QString::number(containsCar())+")\n";
+    //str = "("+QString::number(getX())+","+QString::number(getY())+")\n";
     qDebug() << str;
 
     return str;
 
-}*/
+}
 
-QString Hexagone::toString()
+/*QString Hexagone::toString()
 {
     QString str = "(";
 
@@ -55,7 +60,7 @@ QString Hexagone::toString()
     qDebug() << str;
 
     return str;
-}
+}*/
 
 
 QList<QPointF> Hexagone::getHexagonPoints() const
@@ -66,7 +71,7 @@ QList<QPointF> Hexagone::getHexagonPoints() const
 QList<QPointF> Hexagone::hexagonPoints() const
 {
     QList<QPointF> points;
-    double size = 20; // Ajustez la taille de vos hexagones au besoin
+    double size = 40; // Ajustez la taille de vos hexagones au besoin
     double horizontalSpacing = size * 1.5;
     double verticalSpacing = size * sqrt(3);
 
@@ -103,5 +108,21 @@ bool Hexagone::isInHexagone(double x, double y)
 
     return isInHexagon;
 }
+
+QColor Hexagone::getColor() const
+{
+    return d_color;
+}
+
+void Hexagone::setColor(QColor color)
+{
+    if(d_color != color)
+    {
+        d_color = color;
+        emit colorChanged();
+    }
+}
+
+
 
 

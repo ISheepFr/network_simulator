@@ -34,7 +34,10 @@ Canvas {
 
         // Remplir en vert si la voiture est présente, sinon transparent
         //ctx.fillStyle = hexagone.containsCar ? "green" : "transparent";
-        ctx.fillStyle = hexagone.containsCar ? "#505BF518" : "transparent";
+        //ctx.fillStyle = hexagone.containsCar ? "#505BF518" : "transparent";
+
+        ctx.fillStyle = hexagone.color
+        //ctx.fillStyle = hexagone.containsCar ? "green" : "transparent";
 
         ctx.fill();
 
@@ -42,6 +45,7 @@ Canvas {
         ctx.strokeStyle = "black";
         ctx.lineWidth = 1;
         ctx.stroke();
+
     }
 
     // Reste du code inchangé
@@ -49,6 +53,11 @@ Canvas {
         target: hexagone
         function onContainsCarChanged() {
             c.requestPaint();
+
+        }
+        function onColorChanged(){
+            c.requestPaint();
+
         }
     }
 /*
@@ -61,6 +70,11 @@ Canvas {
         }
     }
 */
+    Text{
+        text: hexagone.index
+        x: hexagone.hexa_x*60
+        y: hexagone.hexa_y*70
+    }
 }
 
 
