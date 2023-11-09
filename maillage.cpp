@@ -53,8 +53,8 @@ void Maillage::init_hexa()
 
             for (int j = 0; j < d_lignes; ++j)
             {
-               //int index = i*d_lignes+j;
-               Hexagone *hexagon = new Hexagone(i, j, this);
+               int index = i*d_lignes+j;
+               Hexagone *hexagon = new Hexagone(i, j,index, this);
                colonneHexagones.push_back(hexagon);
             }
 

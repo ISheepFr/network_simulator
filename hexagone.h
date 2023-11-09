@@ -15,7 +15,7 @@ class Hexagone : public QObject
     Q_PROPERTY(int index READ getIndex CONSTANT)
 
 public:
-
+    Hexagone(int x, int y, int index, QObject *parent = nullptr);
     Hexagone(int x, int y, QObject *parent = nullptr);
 
 

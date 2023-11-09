@@ -2,6 +2,11 @@
 #include <QDebug>
 #include <QPointF>
 
+Hexagone::Hexagone(int x, int y, int ind, QObject *parent):QObject(parent),d_x{x},d_y{y},d_containsCar(false),index{ind}
+{
+
+}
+
 Hexagone::Hexagone(int x, int y, QObject *parent):QObject(parent),d_x{x},d_y{y},d_containsCar(false)
 {
 
