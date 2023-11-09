@@ -115,6 +115,16 @@ Rectangle
             }
         }
 
+        VoitureItem{
+            voiture: Voiture{
+                x: 300
+                y: 200
+                vitesse: 5
+                puissance: 5
+                color: "blue"
+            }
+        }
+
 
         Button{
 

@@ -17,7 +17,7 @@ class Maillage : public QObject
 public:
     explicit Maillage(QObject *parent = nullptr);
     //QVector<QVector<Hexagone *>> getHexagones() const;
-    QList<Hexagone*> getHexagones() const;
+    //QList<Hexagone*> getHexagones() const;
     QList<QList<Hexagone*>> getHexa2d() const;
 
     Q_INVOKABLE QString toString();
@@ -31,11 +31,6 @@ public:
     void init_hexa();
 
     Q_INVOKABLE QList<Hexagone *> getHexagonesVoisins(int i, int j, int profondeur);
-
-
-
-    void ajouterVoisin(QList<Hexagone *> &voisins, int ligne, int colonne);
-    bool estDansLesLimites(int ligne, int colonne);
 
 signals:
     void l_change();
