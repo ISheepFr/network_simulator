@@ -95,7 +95,10 @@ QString Maillage::toString()
     return d_hexagones;
 }*/
 
-
+QGeoCoordinate Maillage::getCoordinate()
+{
+    return d_coordinate;
+}
 
 QList<Hexagone *> Maillage::getHexagonesVoisins(int i, int j, int profondeur)
 {

@@ -1,8 +1,9 @@
 <RCC>
     <qresource prefix="/">
-        <file>grille.qml</file>
+        <file>car-solid.svg</file>
         <file>HexagoneItem.qml</file>
         <file>VoitureItem.qml</file>
-        <file>car-solid.svg</file>
+        <file>main.qml</file>
+        <file>Menu.qml</file>
     </qresource>
 </RCC>

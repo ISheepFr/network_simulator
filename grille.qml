@@ -6,9 +6,10 @@ import QtQuick.Controls 2.15
 
 Rectangle
 {
-
+    id: r
     property double lat: 47.750839
     property double lng: 7.335888
+
 
     Plugin
     {
@@ -25,6 +26,9 @@ Rectangle
         id: mapview
         anchors.fill: parent
         plugin: openstreemap
+        center: QtPositioning.coordinate(lat,lng)
+        zoomLevel: 14
+
         WheelHandler {
             id: wheel
             // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
@@ -42,43 +46,17 @@ Rectangle
             onTranslationChanged: (delta) => mapview.pan(-delta.x, -delta.y)
         }
 
-        center: QtPositioning.coordinate(lat,lng)
-        zoomLevel: 14
-
-        Text{
-            id: label
-            //text: maillage.toString()
-        }
-
-        Maillage {
+     /*   Maillage {
             id: maillage
-            lignes: 5
-            colonnes: 10
+            lignes: 20
+            colonnes: 30
         }
-
-
-      /*  Connections{
-            target: Maillage
-            onL_change: label.text = "l_changed"
-            onC_change: label.text = "c_changed"
-        }*/
 
         property bool color: false
 
-        /*Repeater {
-            model: maillage.hexagones
-            delegate : HexagoneItem {
-                hexagone: modelData
-                wdth: parent.width
-                hght: parent.height
-                //x: modelData.hexa_x
-                //y: modelData.hexa_y
-
-            }
-
-        }*/
 
         Repeater {
+            id: rep
             model: maillage.hexa2d
             delegate: Repeater {
                 model: modelData
@@ -99,7 +77,7 @@ Rectangle
                 voiture: Voiture {
                     x: 0
                     y: 55
-                    vitesse: 3
+                    vitesse: 1
                     puissance: 1
                     color: "green"
                 }
@@ -109,7 +87,7 @@ Rectangle
             voiture: Voiture{
                 x:50
                 y:140
-                vitesse: 2
+                vitesse: 3
                 puissance: 1
                 color: "red"
             }
@@ -119,14 +97,14 @@ Rectangle
             voiture: Voiture{
                 x: 300
                 y: 200
-                vitesse: 5
+                vitesse: 2
                 puissance: 5
                 color: "blue"
             }
-        }
+        }*/
 
 
-        Button{
+      /*  Button{
 
             text: "test"
             onClicked: {
@@ -154,19 +132,94 @@ Rectangle
 
                 console.log("Colonne+1:"+(index+maillage.lignes-1));
                 console.log("Colonne +1 L +1: "+ (index+maillage.lignes));*/
-
+/*
             }
 
             anchors{
                 bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
             }
-        }
+        } */
 
 
         property int nb: 0
 
     }
+
+    Map{
+        id:mapOverlay
+        anchors.fill: parent
+        plugin: Plugin{ name: "itemsoverlay"}
+        center: mapview.center
+        color: 'transparent'
+
+        minimumFieldOfView: mapview.minimumFieldOfView
+        maximumFieldOfView: mapview.maximumFieldOfView
+        minimumTilt: mapview.minimumTilt
+        maximumTilt: mapview.maximumTilt
+        minimumZoomLevel: mapview.minimumZoomLevel
+        maximumZoomLevel: mapview.maximumZoomLevel
+        zoomLevel: mapview.zoomLevel
+        tilt: mapview.tilt;
+        bearing: mapview.bearing
+        fieldOfView: mapview.fieldOfView
+        z: mapview.z +1
+        MapQuickItem{
+            id: q
+
+
+        Maillage{
+                id:maillage
+                lignes:24
+                colonnes:24
+            }
+
+
+
+        Repeater {
+             id: rep
+             model: maillage.hexa2d
+             delegate: Repeater {
+                model: modelData
+                    delegate: HexagoneItem {
+                        hexagone: modelData
+                        wdth: parent.parent.width
+                        hght: parent.parent.height
+                        // x et y dépendent de la structure de Hexagone, ajuste-les en conséquence
+                        // x: modelData.hexa_x
+                        // y: modelData.hexa_y
+
+                    }
+                }
+            }
+
+
+        VoitureItem{
+            voiture: Voiture{
+                x: 300
+                y: 200
+                vitesse: 2
+                puissance: 5
+                color: "blue"
+            }
+        }
+
+        coordinate: maillage.coordinate
+        sourceItem: q
+
+
+}
+
+
+
+
+    }
+
+
+
+
+
+
 
 
 

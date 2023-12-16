@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 #include "hexagone.h"
+#include <QtPositioning>
 
 class Maillage : public QObject
 {
@@ -13,6 +14,8 @@ class Maillage : public QObject
    // Q_PROPERTY(QVector<QVector<Hexagone *>> hexagones READ getHexagones CONSTANT)
    // Q_PROPERTY(QList<Hexagone*> hexagones READ getHexagones CONSTANT)
     Q_PROPERTY(QList<QList<Hexagone*>> hexa2d READ getHexa2d CONSTANT)
+
+    Q_PROPERTY(QGeoCoordinate coordinate READ getCoordinate CONSTANT)
 
 public:
     explicit Maillage(QObject *parent = nullptr);
@@ -32,6 +35,9 @@ public:
 
     Q_INVOKABLE QList<Hexagone *> getHexagonesVoisins(int i, int j, int profondeur);
 
+    QGeoCoordinate getCoordinate();
+
+
 signals:
     void l_change();
     void c_change();
@@ -44,6 +50,9 @@ private:
 
     bool lignes_c = false;
     bool colonnes_c = false;
+
+    QGeoCoordinate d_coordinate=QGeoCoordinate(47.750839,7.335888);
+
 
 };
 

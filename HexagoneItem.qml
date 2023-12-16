@@ -8,6 +8,7 @@ Item{
     property var hght: null
     property var color_hex: null
 
+
    width: 20
    height: 20
 
@@ -19,7 +20,9 @@ Canvas {
     height: hght
 
 
+
     onPaint: {
+
         var ctx = getContext("2d");
         ctx.clearRect(0, 0, width, height);
 
@@ -59,17 +62,20 @@ Canvas {
             c.requestPaint();
 
         }
+
     }
-/*
-    MouseArea {
+
+
+
+   /* MouseArea {
         anchors.fill: parent
         onClicked: {
             console.log(index);
             hexagone.containsCar = !hexagone.containsCar;
             c.requestPaint();
         }
-    }
-*/
+    }*/
+
     Text{
         text: hexagone.index
         x: hexagone.hexa_x*60

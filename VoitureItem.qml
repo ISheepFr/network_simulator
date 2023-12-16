@@ -12,8 +12,6 @@ Item {
         puissance: voiture.puissance
     }
 
-
-
     Image {
         id: img
             source: "car-solid.svg"
@@ -21,6 +19,7 @@ Item {
             height: 10
             x: voiture.x
             y: voiture.y
+
     }
 
     Timer {
