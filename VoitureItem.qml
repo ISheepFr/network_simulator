@@ -6,11 +6,12 @@ Item {
     property var voiture: null
     //property bool simulationStarted: null
 
-    Voiture{
-        x:voiture.x
-        y:voiture.y
-        vitesse: voiture.vitesse
-        puissance: voiture.puissance
+    Voiture {
+        x: voiture ? voiture.x : 0
+        y: voiture ? voiture.y : 0
+        vitesse: voiture ? voiture.vitesse : 0
+        puissance: voiture ? voiture.puissance : 0
+        color: voiture ? voiture.color : "transparent"
     }
 
     Image {
@@ -24,7 +25,7 @@ Item {
     }
 
     Timer {
-        interval: 100 // ajuste l'intervalle selon tes besoins (en millisecondes)
+        interval: 100 * facteurAccel// ajuste l'intervalle selon tes besoins (en millisecondes)
         running: simulationStarted
         repeat: true
         onTriggered: {

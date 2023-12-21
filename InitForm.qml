@@ -1,136 +1,173 @@
 import QtQuick 2.15
 import QtQuick.Controls
 import QtQuick.Layouts
+import Try 1.0
 
 Rectangle{
     color: "lightblue"
     id: form
     width: menu.width
     height: menu.height
+    //anchors.centerIn: horizontalCenter
 
-    GridLayout{
-        focus: true
-        //Layout.fillHeight: true
-        //Layout.fillWidth: true
-        columns: 2
+    RowLayout{
+        ColumnLayout{
+            RowLayout{
+                Text{
+                    text: "Nombre de voitures"
+                    Layout.leftMargin: menu.width / 3
+                    Layout.rightMargin: 10
+                    Layout.topMargin: 10
+                }
 
-        Text{
-            text: "Nombre de voitures"
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
-            Layout.topMargin: 10
-        }
-
-        SpinBox{
-            from: 0
-            stepSize: 1
-        }
-
-        Text {
-            text: "Fréquence minimal (Ghz):"
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
-        }
-
-        SpinBox{
-            id: s
-            from: 0
-            stepSize: 1
-            property int decimals: 2
-            property real realValue: value / 100
-
-            validator: DoubleValidator {
-                bottom: Math.min(s.from, s.to)
-                top:  Math.max(s.from, s.to)
+                SpinBox{
+                    id : nbV
+                    Layout.topMargin: 10
+                    editable: true
+                    from: 0
+                    stepSize: 1
+                }
             }
 
-            textFromValue: function(value, locale) {
-                return Number(value / 100).toLocaleString(locale, 'f', s.decimals)
+            RowLayout{
+                Text {
+                    text: "Fréquence minimal (Ghz):"
+                    Layout.leftMargin: menu.width / 3
+                    Layout.rightMargin: 10
+                }
+
+                SpinBox{
+                    editable: true
+                    id: minFreq
+                    stepSize: 1
+                    value: 30
+                    to : 1000
+                    from : 0
+                }
+}
+            RowLayout{
+
+                Text {
+                    Layout.leftMargin: menu.width / 3
+                    Layout.rightMargin: 10
+                    text: "Fréquence maximal (Ghz):"
+                }
+
+                SpinBox{
+                    editable: true
+                    id: maxFreq
+                    stepSize: 1
+                    value: 50
+                    to : 1000
+                    from : 0
+                }
             }
 
-            valueFromText: function(text, locale) {
-                return Number.fromLocaleString(locale, text) * 100
+            RowLayout{
+                Text {
+                    Layout.leftMargin: menu.width / 3
+                    Layout.rightMargin: 10
+                    text: "Puissance :"
+                }
+
+                TextArea{
+                    id: inp
+                    placeholderText: "puissance 1, puissance 2, ..."
+                }
+            }
+
+            RowLayout{
+                CheckBox{
+                    id: checkbox
+                    Layout.leftMargin: menu.width / 3
+                    Layout.rightMargin: 10
+                    Layout.bottomMargin: 10
+                    text: "Puissance aléatoire"
+                    onCheckStateChanged: {
+                        if(checked == true){
+                            inp.clear()
+                            inp.readOnly = true
+                        }
+                        else{
+                            inp.readOnly = false
+                        }
+                    }
+
+                }
             }
 
         }
 
-        Text {
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
-            text: "Fréquence maximal (Ghz):"
-        }
+        ColumnLayout{
+            Button{
 
-        SpinBox{
-            id: s2
-            from: 0
-            stepSize: 1
+                id: cancel
+                text: "Annuler"
+                onClicked:{
 
-            property int decimals: 2
-            property real realValue: value / 100
+                    configDone = true
+                    configShow = !configShow
+                    settings.enabled = true
+                    more.enabled = true
+                    less.enabled = true
+                    start.enabled = configDone
 
-            validator: DoubleValidator {
-                bottom: Math.min(s2.from, s2.to)
-                top:  Math.max(s2.from, s2.to)
+                }
             }
 
-            textFromValue: function(value, locale) {
-                return Number(value / 100).toLocaleString(locale, 'f', s2.decimals)
+
+
+            Button{
+                id: save
+                text: "Enregistrer"
+                onClicked:{
+                    configDone = true
+                    configShow = !configShow
+                    settings.enabled = true
+                    more.enabled = true
+                    less.enabled = true
+                    start.enabled = configDone
+
+                    nb_voitures = nbV.value
+                    minFrequency = minFreq.value
+                    maxFrequency = maxFreq.value
+
+                    for(var i=0; i < nb_voitures; i++)
+                    {
+var randomColor = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+                    /*var component = Qt.createComponent("VoitureItem.qml");
+
+
+                            if (component !== null && component.status === Component.Ready) {
+*/
+
+                                var voitureItem = Qt.createQmlObject(` import Try 1.0
+                                                                        VoitureItem{
+                                                                            voiture: Voiture{
+                                                                                x: ${i*5}
+                                                                                y: ${i*5}
+                                                                                vitesse: ${i+1}
+                                                                                puissance: ${i+2}
+                                                                                color: "${randomColor}"
+                                                                                            }
+                                                                                    }`
+                        ,q,"dynamicsnippet");
+                                console.log("bug")
+
+                                /*if (voitureItem === null) {
+                                            console.error("Error creating VoitureItem:", component.errorString());
+                                        }
+                                    } else {
+                                        console.error("Error loading VoitureItem component:", component.errorString());
+                                    }*/
+
+                            }
+                }
             }
 
-            valueFromText: function(text, locale) {
-                return Number.fromLocaleString(locale, text) * 100
-            }
-
         }
 
-        Text {
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
-            text: "Puissance :"
-        }
-
-        TextInput{
-            id: inp
-        }
-
-        CheckBox{
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
-            Layout.bottomMargin: 10
-            text: "Puissance aléatoire"
-            checked: inp.readOnly
-        }
-
-        Text{
-            text:""
-        }
-
-        Button{
-            id: cancel
-            text: "Annuler"
-            onClicked:{
-
-                configDone = true
-                configShow = !configShow
-                settings.enabled = true
-                more.enabled = true
-                less.enabled = true
-                start.enabled = configDone
-
-            }
-        }
-
-        Button{
-            id: save
-            text: "Enregistrer"
-            onClicked:{
-                configDone = true
-                configShow = !configShow
-                settings.enabled = true
-                more.enabled = true
-                less.enabled = true
-                start.enabled = configDone
-            }
-        }
     }
+
+
 }

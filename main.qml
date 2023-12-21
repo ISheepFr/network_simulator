@@ -7,6 +7,7 @@ import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
 Window {
+    id: main_w
     width: 800
     height: 600
     visible: true
@@ -20,6 +21,13 @@ Window {
     property int elapsedTime: 0
 
     property bool configDone: false
+
+    property int nb_voitures
+    property int minFrequency
+    property int maxFrequency
+
+    property double facteurAccel: 1.0
+
 
     Plugin
     {

@@ -41,6 +41,9 @@ import QtQuick.Layouts
                             text: "<<"
                             Layout.fillHeight: true
                             Layout.fillWidth: true
+                            onClicked:{
+                                facteurAccel += 0.1
+                            }
                         }
                         Button{
                             id: start
@@ -63,6 +66,19 @@ import QtQuick.Layouts
                             text: ">>"
                             Layout.fillHeight: true
                             Layout.fillWidth: true
+                            onClicked:{
+                                if(facteurAccel - 0.1 > 0.0)
+                                {
+                                    enabled: false ? true :
+                                    facteurAccel -= 0.1
+                                }
+
+                                else{
+                                    enabled: false
+                                }
+
+
+                            }
                         }
                     }
 
@@ -84,7 +100,7 @@ import QtQuick.Layouts
                 }
 
                 ColumnLayout{
-                    Layout.margins: 10
+                    Layout.margins: 20
                     Label{
                         text: "Simulation"
                         Layout.fillHeight: true
@@ -92,7 +108,19 @@ import QtQuick.Layouts
                     }
 
                     Label{
-                        text: "Nombre de voiture : oppzêrpkgpêtopêgege"
+                        text: "Nombre de voiture : "+ nb_voitures
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                    }
+
+                    Label{
+                        text: "Plage de fréquence : "+ minFrequency + " GHz - " + maxFrequency + " Ghz"
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                    }
+
+                    Label{
+                        text: "Puissance : aléatoire"
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                     }
