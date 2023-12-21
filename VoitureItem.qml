@@ -4,6 +4,7 @@ import Try 1.0
 
 Item {
     property var voiture: null
+    //property bool simulationStarted: null
 
     Voiture{
         x:voiture.x
@@ -24,9 +25,10 @@ Item {
 
     Timer {
         interval: 100 // ajuste l'intervalle selon tes besoins (en millisecondes)
-        running: true
+        running: simulationStarted
         repeat: true
         onTriggered: {
+            elapsedTime = elapsedTime + interval
             voiture.avance()
         }
     }

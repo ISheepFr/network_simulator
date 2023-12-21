@@ -4,6 +4,7 @@
         <file>HexagoneItem.qml</file>
         <file>VoitureItem.qml</file>
         <file>main.qml</file>
-        <file>Menu.qml</file>
+        <file>MyMenu.qml</file>
+        <file>InitForm.qml</file>
     </qresource>
 </RCC>

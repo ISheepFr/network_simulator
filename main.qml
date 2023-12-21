@@ -15,6 +15,12 @@ Window {
     property double lat: 47.750839
     property double lng: 7.335888
 
+    property bool menuShow: true
+    property bool simulationStarted: false
+    property int elapsedTime: 0
+
+    property bool configDone: false
+
     Plugin
     {
         id: openstreemap
@@ -96,7 +102,7 @@ Window {
                                         }
                     }
 
-            VoitureItem{
+            /*VoitureItem{
                 voiture: Voiture{
                     x: 5
                     y: 5
@@ -123,22 +129,34 @@ Window {
                     puissance: 5
                     color: "blue"
                                 }
-                        }
+                        }*/
 
         coordinate: maillage.coordinate
         sourceItem: q
         visible: true
     }
 
-    Menu{
-        id: m
-        visible: true
-        Component.onCompleted:{
-            console.log("menu_affichee")
-            console.log("parent width,height :",m.parent.width, m.parent.height)
-            console.log("x,y,z  = "+m.x,m.y,m.z)
-        }
+    Button{
+        text: "+"
+        onClicked: menuShow = !menuShow
     }
+
+
+
+    MyMenu {
+        id: menu
+        visible: menuShow
+        states: [
+                     State { when: menuShow;
+                             PropertyChanges {   target: menu; opacity: 1.0    }},
+                     State { when: !menuShow;
+                             PropertyChanges {   target: menu; opacity: 0.0    }}
+                 ]
+                 transitions: [ Transition { NumberAnimation { property: "opacity"; duration: 500}} ]
+    }
+
+
+
 
 
 
