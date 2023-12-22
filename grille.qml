@@ -2,12 +2,14 @@ import QtQuick 2.15
 import QtLocation
 import QtPositioning
 import Try 1.0
+import QtQuick.Controls 2.15
 
 Rectangle
 {
-
+    id: r
     property double lat: 47.750839
     property double lng: 7.335888
+
 
     Plugin
     {
@@ -24,6 +26,9 @@ Rectangle
         id: mapview
         anchors.fill: parent
         plugin: openstreemap
+        center: QtPositioning.coordinate(lat,lng)
+        zoomLevel: 14
+
         WheelHandler {
             id: wheel
             // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
@@ -41,66 +46,180 @@ Rectangle
             onTranslationChanged: (delta) => mapview.pan(-delta.x, -delta.y)
         }
 
-        center: QtPositioning.coordinate(lat,lng)
-        zoomLevel: 14
-
-        Text{
-            id: label
-            //text: maillage.toString()
-        }
-
-        Maillage {
+     /*   Maillage {
             id: maillage
-            lignes: 12
+            lignes: 20
             colonnes: 30
         }
 
+        property bool color: false
 
-      /*  Connections{
-            target: Maillage
-            onL_change: label.text = "l_changed"
-            onC_change: label.text = "c_changed"
-        }*/
 
         Repeater {
-            model: maillage.hexagones
-            delegate : HexagoneItem {
-                hexagone: modelData
-                wdth: parent.width
-                hght: parent.height
-
+            id: rep
+            model: maillage.hexa2d
+            delegate: Repeater {
+                model: modelData
+                delegate: HexagoneItem {
+                    hexagone: modelData
+                    wdth: parent.width
+                    hght: parent.height
+                    // x et y dépendent de la structure de Hexagone, ajuste-les en conséquence
+                    // x: modelData.hexa_x
+                    // y: modelData.hexa_y
+                }
             }
-
         }
 
 
+        VoitureItem {
+            id: v
+                voiture: Voiture {
+                    x: 0
+                    y: 55
+                    vitesse: 1
+                    puissance: 1
+                    color: "green"
+                }
+            }
+
+        VoitureItem{
+            voiture: Voiture{
+                x:50
+                y:140
+                vitesse: 3
+                puissance: 1
+                color: "red"
+            }
+        }
+
+        VoitureItem{
+            voiture: Voiture{
+                x: 300
+                y: 200
+                vitesse: 2
+                puissance: 5
+                color: "blue"
+            }
+        }*/
+
+
+      /*  Button{
+
+            text: "test"
+            onClicked: {
+                //var index = maillage.lignes*1+0
+                console.log(maillage.hexa2d[1][1]);
+                maillage.hexa2d[1][1].containsCar = !maillage.hexa2d[1][1].containsCar;
+                //maillage.hexagones[index].containsCar = !maillage.hexagones[index].containsCar
+
+               /* maillage.hexagones[index].containsCar = !maillage.hexagones[index].containsCar
+                maillage.hexagones[index-1].containsCar = !maillage.hexagones[index-1].containsCar
+                maillage.hexagones[index+1].containsCar = !maillage.hexagones[index+1].containsCar
+
+                maillage.hexagones[index-maillage.lignes-1].containsCar = !maillage.hexagones[index-maillage.lignes-1].containsCar
+                maillage.hexagones[index-maillage.lignes].containsCar = !maillage.hexagones[index-maillage.lignes].containsCar
+
+                maillage.hexagones[index+maillage.lignes-1].containsCar = !maillage.hexagones[index+maillage.lignes-1].containsCar
+                maillage.hexagones[index+maillage.lignes].containsCar = !maillage.hexagones[index+maillage.lignes].containsCar
+
+                console.log("Centre:"+(index));
+                console.log("Moins 1:"+(index-1));
+                console.log("Plus 1:"+(index+1));
+
+                console.log("Colonne-1:"+(index-maillage.lignes-1));
+                console.log("Colonne -1 L +1: "+ (index-maillage.lignes));
+
+                console.log("Colonne+1:"+(index+maillage.lignes-1));
+                console.log("Colonne +1 L +1: "+ (index+maillage.lignes));*/
+/*
+            }
+
+            anchors{
+                bottom: parent.bottom
+                horizontalCenter: parent.horizontalCenter
+            }
+        } */
 
 
         property int nb: 0
 
-        /*Repeater {
-            model: maillage.hexagones
-            delegate: Row {
-                Repeater {
-                    model: modelData
-                    delegate: Column {
-                        Repeater{
-                            model:modelData
-                            delegate: HexagoneItem{
-                                hexagone: modelData
-                                Component.onCompleted: {
-                                            mapview.nb++
-                                    console.log("Nouvelle instance HexagoneItem créée: "+mapview.nb);
+    }
 
-                                        }
-                            }
-                        }
+    Map{
+        id:mapOverlay
+        anchors.fill: parent
+        plugin: Plugin{ name: "itemsoverlay"}
+        center: mapview.center
+        color: 'transparent'
+
+        minimumFieldOfView: mapview.minimumFieldOfView
+        maximumFieldOfView: mapview.maximumFieldOfView
+        minimumTilt: mapview.minimumTilt
+        maximumTilt: mapview.maximumTilt
+        minimumZoomLevel: mapview.minimumZoomLevel
+        maximumZoomLevel: mapview.maximumZoomLevel
+        zoomLevel: mapview.zoomLevel
+        tilt: mapview.tilt;
+        bearing: mapview.bearing
+        fieldOfView: mapview.fieldOfView
+        z: mapview.z +1
+        MapQuickItem{
+            id: q
+
+
+        Maillage{
+                id:maillage
+                lignes:24
+                colonnes:24
+            }
+
+
+
+        Repeater {
+             id: rep
+             model: maillage.hexa2d
+             delegate: Repeater {
+                model: modelData
+                    delegate: HexagoneItem {
+                        hexagone: modelData
+                        wdth: parent.parent.width
+                        hght: parent.parent.height
+                        // x et y dépendent de la structure de Hexagone, ajuste-les en conséquence
+                        // x: modelData.hexa_x
+                        // y: modelData.hexa_y
+
                     }
-
                 }
             }
-        }*/
+
+
+        VoitureItem{
+            voiture: Voiture{
+                x: 300
+                y: 200
+                vitesse: 2
+                puissance: 5
+                color: "blue"
+            }
+        }
+
+        coordinate: maillage.coordinate
+        sourceItem: q
+
+
+}
+
+
+
+
     }
+
+
+
+
+
+
 
 
 

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QList>
 #include "hexagone.h"
+#include <QtPositioning>
 
 class Maillage : public QObject
 {
@@ -11,12 +12,16 @@ class Maillage : public QObject
     Q_PROPERTY(int lignes READ getLignes WRITE setLignes)
     Q_PROPERTY(int colonnes READ getColonnes WRITE setColonnes)
    // Q_PROPERTY(QVector<QVector<Hexagone *>> hexagones READ getHexagones CONSTANT)
-    Q_PROPERTY(QList<Hexagone*> hexagones READ getHexagones CONSTANT)
+   // Q_PROPERTY(QList<Hexagone*> hexagones READ getHexagones CONSTANT)
+    Q_PROPERTY(QList<QList<Hexagone*>> hexa2d READ getHexa2d CONSTANT)
+
+    Q_PROPERTY(QGeoCoordinate coordinate READ getCoordinate CONSTANT)
 
 public:
     explicit Maillage(QObject *parent = nullptr);
     //QVector<QVector<Hexagone *>> getHexagones() const;
-    QList<Hexagone*> getHexagones() const;
+    //QList<Hexagone*> getHexagones() const;
+    QList<QList<Hexagone*>> getHexa2d() const;
 
     Q_INVOKABLE QString toString();
 
@@ -28,17 +33,26 @@ public:
 
     void init_hexa();
 
+    Q_INVOKABLE QList<Hexagone *> getHexagonesVoisins(int i, int j, int profondeur);
+
+    QGeoCoordinate getCoordinate();
+
+
 signals:
     void l_change();
     void c_change();
 
 private:
-    QList<Hexagone *> d_hexagones;
+    //QList<Hexagone *> d_hexagones;
+    QList<QList<Hexagone*>> d_hexa2d;
     int d_lignes = 0;
     int d_colonnes = 0;
 
     bool lignes_c = false;
     bool colonnes_c = false;
+
+    QGeoCoordinate d_coordinate=QGeoCoordinate(47.750839,7.335888);
+
 
 };
 
