@@ -19,8 +19,8 @@ Item {
             source: "car-solid.svg"
             width: 10
             height: 10
-            x: voiture.x
-            y: voiture.y
+            x: voiture.x - width
+            y: voiture.y - height
 
     }
 
@@ -46,6 +46,15 @@ Item {
         }
     }
 
+    Connections{
+        target: mapOverlay
+        function onZoomLevelChanged(){
+            c.requestPaint();
+            console.log(mapOverlay.zoomLevel);
+        }
+    }
+
+
     function checkHexagonColor() {
 
         for (var i = 0; i < maillage.colonnes; ++i) {
@@ -57,10 +66,18 @@ Item {
                     //hexagone.containsCar = !hexagone.containsCar;
                     hexagone.color = voiture.color;
                     var tab_ = maillage.getHexagonesVoisins(i,j,1);
-                    console.log(tab_.length);
+
+                    // Convertir la couleur hexadécimale en couleur avec transparence (RGBA)
+                    var hexColorString = hexagone.color.toString();
+                    var rgbaColor = Qt.rgba(parseInt(hexColorString.substring(1, 3), 16) / 255.0,
+                                            parseInt(hexColorString.substring(3, 5), 16) / 255.0,
+                                            parseInt(hexColorString.substring(5, 7), 16) / 255.0,
+                                            0.3);  // 0.5 représente 50% de transparence
+
                     for(var k=0; k<tab_.length; k++)
                     {
-                        tab_[k].color = "#505BF518";
+                        tab_[k].color = rgbaColor;
+
                     }
                     //console.log("i : " + i + " j : "+ j + "index: "+hexagone.getIndex());
                     break;

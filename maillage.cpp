@@ -103,15 +103,45 @@ QGeoCoordinate Maillage::getCoordinate()
 QList<Hexagone *> Maillage::getHexagonesVoisins(int i, int j, int profondeur)
 {
     QList<Hexagone *> voisins;
-    qDebug() << i << " " << j;
+    //qDebug() << i << " " << j;
 
     if (!d_hexa2d[i][j] || profondeur <= 0)
         return voisins;
 
     if(i >= 0 && i <= d_lignes && j-1 >= 0 && j+1 <= d_colonnes)
     {
+        //qDebug() << "(imax, jmax) : " << d_lignes << "," << d_colonnes;
+        //qDebug() << "(i,j) : " << i << "," << j ;
+        //qDebug() << "(i+1,j+1) : " << i+1 << "," << j+1 ;
+
         voisins.append(d_hexa2d[i][j-1]);
         voisins.append(d_hexa2d[i][j+1]);
+
+        if(i % 2 == 1)
+        {
+            voisins.append(d_hexa2d[i-1][j]);
+            voisins.append(d_hexa2d[i-1][j+1]);
+
+            if(i+1 < d_lignes)
+            {
+                voisins.append(d_hexa2d[i+1][j]);
+                voisins.append(d_hexa2d[i+1][j+1]);
+            }
+
+        }
+
+        else{
+            voisins.append(d_hexa2d[i-1][j-1]);
+            voisins.append(d_hexa2d[i-1][j]);
+
+            if(i+1 < d_lignes)
+            {
+                voisins.append(d_hexa2d[i+1][j-1]);
+                voisins.append(d_hexa2d[i+1][j]);
+            }
+
+        }
+        //voisins.append(d_hexa2d[i+1][j]);
     }
 
 
