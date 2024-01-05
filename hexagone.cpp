@@ -71,7 +71,7 @@ QList<QPointF> Hexagone::getHexagonPoints() const
 QList<QPointF> Hexagone::hexagonPoints() const
 {
     QList<QPointF> points;
-    double size = 20; // Ajustez la taille de vos hexagones au besoin
+    double size = 10; // Ajustez la taille de vos hexagones au besoin
     double horizontalSpacing = size * 1.5;
     double verticalSpacing = size * sqrt(3);
 

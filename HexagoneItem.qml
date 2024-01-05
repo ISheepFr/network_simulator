@@ -7,7 +7,7 @@ Item{
     property var wdth: null
     property var hght: null
     property var color_hex: null
-
+    property real zoomOriginal: 14.0
 
    width: 20
    height: 20
@@ -29,9 +29,11 @@ Canvas {
         // Dessiner l'hexagone actuel
         var hexagonPoints = hexagone.getHexagonPoints();
         ctx.beginPath();
-        ctx.moveTo(hexagonPoints[0].x, hexagonPoints[0].y);
+        //ctx.moveTo(hexagonPoints[0].x, hexagonPoints[0].y);
+        ctx.moveTo(hexagonPoints[0].x / (zoomOriginal - mapOverlay.zoomLevel + 1) , hexagonPoints[0].y / (zoomOriginal - mapOverlay.zoomLevel + 1));
         for (var j = 1; j < hexagonPoints.length; ++j) {
-            ctx.lineTo(hexagonPoints[j].x, hexagonPoints[j].y);
+            //ctx.lineTo(hexagonPoints[j].x, hexagonPoints[j].y);
+            ctx.lineTo(hexagonPoints[j].x / (zoomOriginal - mapOverlay.zoomLevel + 1), hexagonPoints[j].y / (zoomOriginal - mapOverlay.zoomLevel + 1));
         }
         ctx.closePath();
 
@@ -60,10 +62,18 @@ Canvas {
         }
         function onColorChanged(){
             c.requestPaint();
-
         }
-
     }
+
+    Connections{
+        target: mapOverlay
+        function onZoomLevelChanged(){
+            c.requestPaint();
+            console.log(mapOverlay.zoomLevel);
+        }
+    }
+
+
 
 
 

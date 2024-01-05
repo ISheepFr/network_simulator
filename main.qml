@@ -28,6 +28,7 @@ Window {
 
     property double facteurAccel: 1.0
 
+    property int zoomLvl
 
     Plugin
     {
@@ -45,7 +46,8 @@ Window {
         anchors.fill: parent
         plugin: openstreemap
         center: QtPositioning.coordinate(lat,lng)
-        zoomLevel: 14
+        zoomLevel: 14.0
+
 
         WheelHandler {
             id: wheel
@@ -64,6 +66,27 @@ Window {
             onTranslationChanged: (delta) => mapview.pan(-delta.x, -delta.y)
         }
 
+        MapItemView {
+            model: itinéraire
+            delegate: MapRoute {
+                route: routeData
+                line.color: "blue"
+                line.width: 5
+                smooth: true
+                opacity: 0.5
+            }
+        }
+    }
+
+    RouteModel {
+        id: itinéraire
+        plugin: mapview.plugin
+        autoUpdate: true
+        query: RouteQuery {
+            id: choixItinéraire
+            travelModes: RouteQuery.CarTravel
+            routeOptimizations: RouteQuery.ShortestRoute
+        }
     }
 
     Map{
@@ -80,6 +103,7 @@ Window {
         minimumZoomLevel: mapview.minimumZoomLevel
         maximumZoomLevel: mapview.maximumZoomLevel
         zoomLevel: mapview.zoomLevel
+
         tilt: mapview.tilt;
         bearing: mapview.bearing
         fieldOfView: mapview.fieldOfView
@@ -146,10 +170,15 @@ Window {
 
     Button{
         text: "+"
-        onClicked: menuShow = !menuShow
+        //onClicked: menuShow = !menuShow
+        onClicked: {
+         mapview.center = QtPositioning.coordinate(lat,lng)
+         choixItinéraire.clearWaypoints()
+         choixItinéraire.addWaypoint(QtPositioning.coordinate(lat,lng))
+         choixItinéraire.addWaypoint(QtPositioning.coordinate(47.2, 7.0))
+         mapview.update()
+         }
     }
-
-
 
     MyMenu {
         id: menu
@@ -162,8 +191,6 @@ Window {
                  ]
                  transitions: [ Transition { NumberAnimation { property: "opacity"; duration: 500}} ]
     }
-
-
 
 
 

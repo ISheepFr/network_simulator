@@ -134,7 +134,7 @@ Rectangle{
 
                     for(var i=0; i < nb_voitures; i++)
                     {
-var randomColor = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+                    var randomColor = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
                     /*var component = Qt.createComponent("VoitureItem.qml");
 
 
@@ -144,8 +144,8 @@ var randomColor = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
                                 var voitureItem = Qt.createQmlObject(` import Try 1.0
                                                                         VoitureItem{
                                                                             voiture: Voiture{
-                                                                                x: ${i*5}
-                                                                                y: ${i*5}
+                                                                                x: ${i+10}
+                                                                                y: ${(i+1)*60}
                                                                                 vitesse: ${i+1}
                                                                                 puissance: ${i+2}
                                                                                 color: "${randomColor}"
