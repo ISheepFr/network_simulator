@@ -34,6 +34,7 @@ public:
     void init_hexa();
 
     Q_INVOKABLE QList<Hexagone *> getHexagonesVoisins(int i, int j, int profondeur);
+    Q_INVOKABLE QPoint cartesianToAxial(const QPointF& point, int w, int h) const;
 
     QGeoCoordinate getCoordinate();
 
@@ -51,7 +52,7 @@ private:
     bool lignes_c = false;
     bool colonnes_c = false;
 
-    QGeoCoordinate d_coordinate=QGeoCoordinate(47.750839,7.335888);
+    QGeoCoordinate d_coordinate=QGeoCoordinate(47.762731,7.299381);
 
 
 };

@@ -14,6 +14,7 @@ class Voiture : public QObject
     Q_PROPERTY(QColor color READ getColor WRITE setColor FINAL)
 
 public:
+
     explicit Voiture(QObject *parent = nullptr);
 
     double getX();
@@ -27,10 +28,12 @@ public:
     void setColor(QColor color);
 
 
-    Q_INVOKABLE void avance();
-   // void recule();
-   // void gauche();
-   // void droite();
+    void avance();
+    Q_INVOKABLE void aleatoire();
+
+   void recule();
+   void gauche();
+   void droite();
 
     void setX(double x);
     void setY(double y);
@@ -43,13 +46,18 @@ signals:
     void yChanged();
     void vitesseChanged();
     void vAvance();
+    void vAleatoire();
+
 
 private:
+
     double d_x;
     double d_y;
-
+    int d_last_move;
     int d_vitesse;
     int d_puissance;
+    int regularisation = -1;
+    int real_regu = rand() % 30 +10;
 
     QColor d_color = QColor(0,0,0,0);
 

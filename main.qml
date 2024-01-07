@@ -113,8 +113,10 @@ Window {
             id:q
             Maillage{
                 id:maillage
-                lignes:10
-                colonnes:10
+                //lignes:30
+                //colonnes:80
+                lignes: 20
+                colonnes: 20
                     }
 
             Repeater {

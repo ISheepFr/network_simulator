@@ -3,6 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Try 1.0
 
+
+
 Rectangle{
     color: "lightblue"
     id: form
@@ -118,6 +120,7 @@ Rectangle{
 
 
             Button{
+                property var generatedColors: []
                 id: save
                 text: "Enregistrer"
                 onClicked:{
@@ -132,27 +135,39 @@ Rectangle{
                     minFrequency = minFreq.value
                     maxFrequency = maxFreq.value
 
+                    function generateRandomColor() {
+                            var randomColor;
+                            do {
+                                randomColor = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+                            } while (generatedColors.indexOf(randomColor) !== -1);
+
+                            generatedColors.push(randomColor);
+                            return randomColor;
+                        }
+
                     for(var i=0; i < nb_voitures; i++)
                     {
-                    var randomColor = Qt.rgba(Math.random(), Math.random(), Math.random(), 1);
+                    var randomColor = generateRandomColor();
                     /*var component = Qt.createComponent("VoitureItem.qml");
 
 
                             if (component !== null && component.status === Component.Ready) {
 */
-
+                                var random_x = Math.floor(Math.random() * 15 * maillage.lignes)
+                                var random_y = Math.floor(Math.random() * 15 * maillage.colonnes)
+                                var random_v = Math.floor(Math.random() * 10)
                                 var voitureItem = Qt.createQmlObject(` import Try 1.0
                                                                         VoitureItem{
                                                                             voiture: Voiture{
-                                                                                x: ${i+10}
-                                                                                y: ${(i+1)*60}
-                                                                                vitesse: ${i+1}
+                                                                                x: ${random_x}
+                                                                                y: ${random_y}
+                                                                                vitesse: ${random_v}
                                                                                 puissance: ${i+2}
                                                                                 color: "${randomColor}"
                                                                                             }
                                                                                     }`
                         ,q,"dynamicsnippet");
-                                console.log("bug")
+                                //console.log("bug")
 
                                 /*if (voitureItem === null) {
                                             console.error("Error creating VoitureItem:", component.errorString());

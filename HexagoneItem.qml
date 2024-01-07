@@ -69,7 +69,7 @@ Canvas {
         target: mapOverlay
         function onZoomLevelChanged(){
             c.requestPaint();
-            console.log(mapOverlay.zoomLevel);
+            //console.log(mapOverlay.zoomLevel);
         }
     }
 
@@ -86,11 +86,6 @@ Canvas {
         }
     }*/
 
-    Text{
-        text: hexagone.index
-        x: hexagone.hexa_x*60
-        y: hexagone.hexa_y*70
-    }
 }
 
 
