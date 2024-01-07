@@ -90,6 +90,9 @@ QList<QPointF> Hexagone::hexagonPoints() const
     return points;
 }
 
+
+
+
 bool Hexagone::isInHexagone(double x, double y)
 {
     QList<QPointF> hexagonPoints = getHexagonPoints();

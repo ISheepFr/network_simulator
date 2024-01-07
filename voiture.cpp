@@ -1,8 +1,8 @@
 #include "voiture.h"
+#include <QDebug>
 
 Voiture::Voiture(QObject *parent):QObject(parent)
 {
-
 }
 
 double Voiture::getX(){return d_x;}
@@ -38,8 +38,63 @@ void Voiture::setVitesse(int vitesse)
 
 void Voiture::avance()
 {
-    setX(getX()+getVitesse());
-    emit vAvance();
+    setY(getY()+getVitesse());
+}
+
+void Voiture::gauche()
+{
+    setX(getX() - getVitesse());
+}
+
+void Voiture::droite()
+{
+    setX(getX() + getVitesse());
+}
+
+void Voiture::recule()
+{
+    setY(getY() - getVitesse());
+}
+
+void Voiture::aleatoire()
+{
+    int r;
+    //qDebug() << regularisation;
+    if(regularisation-1 < 0)
+    {
+
+        regularisation = real_regu;
+        r = rand() % 4;
+        d_last_move = r;
+    }
+    else{
+        r = d_last_move;
+        regularisation = regularisation - 1;
+    }
+
+    switch(r)
+    {
+    case 0:
+        gauche();
+        //qDebug("Gauche!");
+        break;
+    case 1:
+        droite();
+        //qDebug("Droite!");
+        break;
+    case 2:
+        avance();
+        //qDebug("Devant!");
+        break;
+    case 3:
+        recule();
+        //qDebug("Derriere!");
+        break;
+    default:
+        break;
+    }
+
+    emit vAleatoire();
 }
 
 QString Voiture::toString()

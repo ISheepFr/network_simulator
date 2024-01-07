@@ -108,37 +108,70 @@ QList<Hexagone *> Maillage::getHexagonesVoisins(int i, int j, int profondeur)
     if (!d_hexa2d[i][j] || profondeur <= 0)
         return voisins;
 
-    if(i >= 0 && i <= d_lignes && j-1 >= 0 && j+1 <= d_colonnes)
+    bool grille_verif = ( (i > 0 && i < d_colonnes) && (j > 0 && j < d_lignes));
+    //if(i >= 0 && i <= d_lignes && j-1 >= 0 && j+1 <= d_colonnes)
+    if(grille_verif)
     {
         //qDebug() << "(imax, jmax) : " << d_lignes << "," << d_colonnes;
         //qDebug() << "(i,j) : " << i << "," << j ;
         //qDebug() << "(i+1,j+1) : " << i+1 << "," << j+1 ;
-
+        if(j-1 > 0 && j-1 < d_lignes)
+        {
         voisins.append(d_hexa2d[i][j-1]);
+        }
+
+        if(j+1 > 0 && j+1 < d_lignes)
+        {
         voisins.append(d_hexa2d[i][j+1]);
+        }
+
 
         if(i % 2 == 1)
         {
+        if(i-1 > 0 && i-1 < d_colonnes)
+        {
             voisins.append(d_hexa2d[i-1][j]);
-            voisins.append(d_hexa2d[i-1][j+1]);
-
-            if(i+1 < d_lignes)
+            if(j+1 > 0 && j+1 < d_lignes)
             {
-                voisins.append(d_hexa2d[i+1][j]);
-                voisins.append(d_hexa2d[i+1][j+1]);
+               voisins.append(d_hexa2d[i-1][j+1]);
             }
 
         }
 
-        else{
-            voisins.append(d_hexa2d[i-1][j-1]);
-            voisins.append(d_hexa2d[i-1][j]);
-
-            if(i+1 < d_lignes)
+        if(i+1 >0 && i+1 < d_colonnes)
+        {
+            voisins.append(d_hexa2d[i+1][j]);
+            if(j+1 > 0 && j+1 < d_lignes)
             {
-                voisins.append(d_hexa2d[i+1][j-1]);
-                voisins.append(d_hexa2d[i+1][j]);
+              voisins.append(d_hexa2d[i+1][j+1]);
             }
+
+        }
+
+        }
+
+        else{
+        if(i-1 > 0 && i-1 <d_colonnes)
+        {
+
+            voisins.append(d_hexa2d[i-1][j]);
+            if(j-1 > 0 && j-1 < d_lignes)
+            {
+             voisins.append(d_hexa2d[i-1][j-1]);
+            }
+
+
+            if(i+1 >0 && i+1 < d_colonnes)
+            {
+               voisins.append(d_hexa2d[i+1][j]);
+               if(j-1 > 0 && j-1 < d_lignes)
+               {
+                   voisins.append(d_hexa2d[i+1][j-1]);
+               }
+
+
+            }
+        }
 
         }
         //voisins.append(d_hexa2d[i+1][j]);
@@ -161,6 +194,21 @@ QList<Hexagone *> Maillage::getHexagonesVoisins(int i, int j, int profondeur)
     qDebug() << "-----------";*/
 
     return voisins;
+}
+
+QPoint Maillage::cartesianToAxial(const QPointF& point, int w, int h) const
+{
+    qDebug() << "Point de base :" << point;
+    //double size = 10; // Ajustez la taille de vos hexagones au besoin
+    //double horizontalSpacing = size * 1.5;
+    //double verticalSpacing = size * sqrt(3);
+
+    int q = static_cast<int>(point.x() * w / d_colonnes);
+    int r = static_cast<int>(point.y() * h / d_lignes) - (q + (q & 1)) / 2;
+
+    qDebug() << "Q : " << q << " R: " << r;
+    return QPoint(q, r);
+
 }
 
 

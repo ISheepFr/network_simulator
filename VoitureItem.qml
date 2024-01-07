@@ -4,6 +4,7 @@ import Try 1.0
 
 Item {
     property var voiture: null
+    property real zoomOriginal: 14.0
     //property bool simulationStarted: null
 
     Voiture {
@@ -19,18 +20,19 @@ Item {
             source: "car-solid.svg"
             width: 10
             height: 10
-            x: voiture.x - width
-            y: voiture.y - height
+
+            x: (voiture.x - width)
+            y: (voiture.y - height)
 
     }
 
     Timer {
-        interval: 100 * facteurAccel// ajuste l'intervalle selon tes besoins (en millisecondes)
+        interval: 100 * (1/facteurAccel)
         running: simulationStarted
         repeat: true
         onTriggered: {
             elapsedTime = elapsedTime + interval
-            voiture.avance()
+            voiture.aleatoire();
         }
     }
 
@@ -49,8 +51,7 @@ Item {
     Connections{
         target: mapOverlay
         function onZoomLevelChanged(){
-            c.requestPaint();
-            console.log(mapOverlay.zoomLevel);
+
         }
     }
 
@@ -103,8 +104,26 @@ Item {
 
 
     }
+       /* const point_voiture = Qt.point(voiture.x,voiture.y)
+        var pts_result = maillage.cartesianToAxial(point_voiture,10*maillage.colonnes, 10*maillage.lignes);
+        console.log("FAUX : ",pts_result);
 
+        var hexagone = maillage.hexa2d[pts_result.x][pts_result.y];
+        hexagone.color = voiture.color;
+        var tab_ = maillage.getHexagonesVoisins(pts_result.x,pts_result,1);
 
+        // Convertir la couleur hexadécimale en couleur avec transparence (RGBA)
+        var hexColorString = hexagone.color.toString();
+        var rgbaColor = Qt.rgba(parseInt(hexColorString.substring(1, 3), 16) / 255.0,
+                                parseInt(hexColorString.substring(3, 5), 16) / 255.0,
+                                parseInt(hexColorString.substring(5, 7), 16) / 255.0,
+                                0.3);  // 0.5 représente 50% de transparence
+
+        for(var k=0; k<tab_.length; k++)
+        {
+            tab_[k].color = rgbaColor;
+
+        }*/
 }
 
 

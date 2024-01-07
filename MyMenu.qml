@@ -27,12 +27,31 @@ import QtQuick.Layouts
                     Layout.margins: 10
                     TextField{
 
-                        text:  "00:00:"+elapsedTime
+                        text:{
+                            function formatTime(ms) {
+
+                                var ms_ =ms % 1000
+                                var seconds = ms / 1000;
+                                var minutes = Math.floor((seconds % 3600) / 60);
+                                seconds = seconds % 60;
+
+                                return pad(minutes) + ":" + pad(seconds) + ":" + pad(ms_);
+                            }
+
+                            function pad(value) {
+                                return (value < 10 ? "0" : "") + value;
+                            }
+
+                            text: formatTime(elapsedTime);
+                        }
+
                         readOnly: true
                         //Layout.alignment: horizontalCenter
                         Layout.preferredWidth: parent.width
 
                     }
+
+
 
                     RowLayout{
 
@@ -42,7 +61,14 @@ import QtQuick.Layouts
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             onClicked:{
-                                facteurAccel += 0.1
+                                if(facteurAccel - 0.1 > 0.0)
+                                {
+                                    facteurAccel -= 0.1
+                                }
+
+                                else{
+                                    enabled: false
+                                }
                             }
                         }
                         Button{
@@ -66,18 +92,8 @@ import QtQuick.Layouts
                             text: ">>"
                             Layout.fillHeight: true
                             Layout.fillWidth: true
-                            onClicked:{
-                                if(facteurAccel - 0.1 > 0.0)
-                                {
-                                    enabled: false ? true :
-                                    facteurAccel -= 0.1
-                                }
-
-                                else{
-                                    enabled: false
-                                }
-
-
+                            onClicked:{                             
+                                facteurAccel += 0.1
                             }
                         }
                     }
