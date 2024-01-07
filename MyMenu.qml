@@ -31,7 +31,7 @@ import QtQuick.Layouts
                             function formatTime(ms) {
 
                                 var ms_ =ms % 1000
-                                var seconds = ms / 1000;
+                                var seconds = Math.round(ms / 1000);
                                 var minutes = Math.floor((seconds % 3600) / 60);
                                 seconds = seconds % 60;
 
